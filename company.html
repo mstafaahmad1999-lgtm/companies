@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15130f">
+  <title>Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script src="companies.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <header class="band">
+    <div class="wrap topbar">
+      <a class="back" id="back" href="index.html"></a>
+      <div class="lang" id="lang" role="group" aria-label="Language"></div>
+    </div>
+  </header>
+  <main class="wrap" id="app"></main>
+  <footer class="footer" id="footer"></footer>
+  <script>
+    const app = document.getElementById("app");
+    const c = COMPANIES.find(x => x.id === new URLSearchParams(location.search).get("id"));
+
+    startPage((lang, t) => {
+      const back = document.getElementById("back");
+      back.href = `index.html?lang=${lang}`;
+      back.innerHTML = `<span class="arr" aria-hidden="true">←</span> ${t.back}`;
+      if (!c) {
+        app.innerHTML = `<article class="sheet"><p class="muted">${t.notFound}</p></article>`;
+        return;
+      }
+      const name = c.name[lang], src = c.profile[lang];
+      const contacts = [
+        c.phone && `<a href="tel:${c.phone.replace(/\s/g, "")}">${t.call}</a>`,
+        c.whatsapp && `<a href="https://wa.me/${c.whatsapp}">${t.whatsapp}</a>`,
+        c.email && `<a href="mailto:${c.email}">${t.email}</a>`,
+        c.website && `<a href="${c.website}" target="_blank" rel="noopener">${t.website}</a>`,
+      ].filter(Boolean).join("");
+      const others = COMPANIES.filter(o => o !== c).map(o => `
+        <a class="mini-card" href="company.html?id=${encodeURIComponent(o.id)}&lang=${lang}">
+          <span class="logo-panel"><img src="${o.logo}" alt=""></span>
+          ${o.name[lang]}
+        </a>`).join("");
+
+      document.title = name;
+      app.innerHTML = `
+        <article class="sheet" style="--co:${c.accent}">
+          <div class="sheet-head">
+            <span class="logo-panel"><img src="${c.logo}" alt=""></span>
+            <h1>${name}</h1>
+            <p class="muted">${c.sector[lang]}</p>
+            ${contacts && `<div class="actions">${contacts}</div>`}
+          </div>
+          <div class="profile-lang">
+            <span class="profile-lang-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+              ${t.profileLang}
+            </span>
+            <div class="lang" role="group" aria-label="${t.profileLang}"></div>
+          </div>
+          <figure class="profile loading" id="profile">
+            <a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${name}" decoding="async"></a>
+          </figure>
+          <div class="actions" id="profile-actions">
+            <a href="${src}" target="_blank" rel="noopener">${t.open}</a>
+            <a href="${src}" download>${t.download}</a>
+          </div>
+        </article>
+        <section class="others">
+          <h2 class="eyebrow">${t.others}</h2>
+          <div class="mini">${others}</div>
+        </section>`;
+
+      const fig = document.getElementById("profile"), img = fig.querySelector("img");
+      // Wait for decode too: a 3200×4800 image paints noticeably after "load".
+      img.onload = () => img.decode().catch(() => {}).finally(() => fig.classList.remove("loading"));
+      img.onerror = () => {
+        fig.classList.remove("loading");
+        fig.innerHTML = `<p class="muted">${t.missing}</p>`;
+        document.getElementById("profile-actions").remove();
+      };
+    });
+  </script>
+</body>
+</html>

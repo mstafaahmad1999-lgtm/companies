@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <style>
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input { width: 100%; padding: 10px 12px; font: inherit; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--text); }
+    #qr { background: #fff; padding: 16px; border-radius: 14px; width: min(320px, 100%); margin: 20px auto; }
+    #qr svg { display: block; width: 100%; height: auto; }
+    .actions { justify-content: center; }
+    button { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main class="wrap" style="max-width: 560px; padding-block: 32px">
+    <header style="text-align: center; margin-bottom: 24px">
+      <h1 style="font-family: var(--serif); margin: 0">Portal QR code</h1>
+      <p class="muted">Scanning this opens the page with all three companies.</p>
+    </header>
+    <label for="url">Portal address</label>
+    <input id="url" type="url">
+    <div id="qr"></div>
+    <div class="actions">
+      <button id="png">Download PNG</button>
+      <button id="svg">Download SVG (for print)</button>
+    </div>
+  </main>
+  <script>
+    const input = document.getElementById("url");
+    // Default: the index page next to this file, i.e. wherever the site is hosted.
+    input.value = new URL("index.html", location.href).href.replace(/index\.html$/, "");
+    let qr;
+
+    const render = () => {
+      qr = qrcode(0, "Q"); // Q = ~25% error correction, survives print wear / a small logo
+      qr.addData(input.value.trim());
+      qr.make();
+      document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+    };
+
+    const download = (href, name) => Object.assign(document.createElement("a"), { href, download: name }).click();
+
+    document.getElementById("svg").onclick = () => {
+      const blob = new Blob([qr.createSvgTag({ cellSize: 20, margin: 4 })], { type: "image/svg+xml" });
+      download(URL.createObjectURL(blob), "portal-qr.svg");
+    };
+
+    document.getElementById("png").onclick = () => {
+      const n = qr.getModuleCount(), margin = 4, scale = Math.ceil(1200 / (n + margin * 2));
+      const canvas = Object.assign(document.createElement("canvas"), { width: (n + margin * 2) * scale, height: (n + margin * 2) * scale });
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000";
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+        if (qr.isDark(r, c)) ctx.fillRect((c + margin) * scale, (r + margin) * scale, scale, scale);
+      download(canvas.toDataURL("image/png"), "portal-qr.png");
+    };
+
+    input.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>

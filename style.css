@@ -1,0 +1,168 @@
+:root {
+  --bg: #f6f2ea; --card: #fffdf9; --text: #1b1a17; --muted: #6f6a60; --line: #e6dfd2;
+  --ink: #15130f; --ink-text: #f4efe6; --ink-muted: #b5ad9d;
+  --accent: #b08d45; --accent-strong: #8a6a2c;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 18px;
+  --shadow: 0 1px 2px rgba(20, 18, 14, .05), 0 14px 34px -14px rgba(20, 18, 14, .22);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0e0c; --card: #1a1815; --text: #f1ece2; --muted: #a39b8c; --line: #2d2a24;
+    --ink: #070605; --accent: #c9a55c; --accent-strong: #d8b56b;
+    --shadow: 0 14px 34px -14px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+/* Latin serif has no Arabic glyphs — Arabic uses Tajawal throughout. */
+[lang="ar"] { --serif: "Tajawal", Tahoma, sans-serif; --sans: "Tajawal", Tahoma, sans-serif; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+img { max-width: 100%; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--muted); margin: 0; }
+
+/* ---- Dark header band (home hero + company page) ---- */
+.hero, .band {
+  background: radial-gradient(120% 90% at 50% 0%, #2b2519 0%, var(--ink) 62%);
+  color: var(--ink-text);
+}
+.hero { text-align: center; padding: 12px 0 104px; }
+.band { padding: 12px 0 92px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; }
+.hero .topbar { justify-content: flex-end; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px; margin: 36px 0 14px;
+  color: var(--accent); font-size: .75rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase;
+}
+.eyebrow::before, .eyebrow::after { content: ""; width: 28px; height: 1px; background: currentColor; opacity: .6; }
+[lang="ar"] .eyebrow { letter-spacing: 0; font-size: .95rem; }
+
+.hero h1 {
+  font: 500 clamp(2.2rem, 7vw, 3.8rem)/1.08 var(--serif);
+  margin: 0 auto 16px; max-width: 15ch; text-wrap: balance;
+}
+[lang="ar"] .hero h1 { font-weight: 700; line-height: 1.35; font-size: clamp(1.9rem, 6vw, 3.2rem); }
+.lead { color: var(--ink-muted); max-width: 44ch; margin: 0 auto; text-wrap: pretty; }
+
+.lang {
+  display: inline-flex; padding: 3px; border-radius: 999px;
+  background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14);
+}
+.lang button {
+  border: 0; background: transparent; color: var(--ink-muted); cursor: pointer;
+  padding: 6px 13px; border-radius: 999px; font: 500 .85rem/1.4 var(--sans);
+}
+.lang button:hover { color: var(--ink-text); }
+.lang button[aria-pressed="true"] { background: var(--accent); color: #15130f; font-weight: 700; }
+
+.back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-muted); text-decoration: none; font-size: .9rem; }
+.back:hover { color: var(--ink-text); }
+
+/* ---- Company cards (home) ---- */
+.cards { display: grid; gap: 16px; margin-top: -68px; position: relative; }
+.card {
+  display: flex; background: var(--card); color: inherit; text-decoration: none;
+  border: 1px solid var(--line); border-top: 3px solid var(--co); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow); transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover, .card:focus-visible { transform: translateY(-4px); box-shadow: 0 22px 44px -16px rgba(20, 18, 14, .32); }
+.card:focus-visible, .mini-card:focus-visible, .lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Logo is absolutely placed so tall/wide logos never change the panel's size. */
+.logo-panel { --pad: 14px; position: relative; display: block; background: #fff; }
+.logo-panel img {
+  position: absolute; top: var(--pad); left: var(--pad);
+  width: calc(100% - 2 * var(--pad)); height: calc(100% - 2 * var(--pad)); object-fit: contain;
+}
+.card .logo-panel { flex: none; width: 38%; min-height: 120px; border-inline-end: 1px solid var(--line); }
+
+.card-body { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 16px 18px; min-width: 0; }
+.card-index { font: 600 .95rem var(--serif); color: var(--accent); letter-spacing: .12em; }
+.card h2 { font: 600 1.45rem/1.2 var(--serif); margin: 0; }
+[lang="ar"] .card h2 { font-weight: 700; font-size: 1.3rem; }
+.card p { margin: 0; color: var(--muted); font-size: .9rem; }
+.cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--accent-strong); font-weight: 600; font-size: .88rem; }
+.arr { display: inline-block; transition: transform .25s ease; }
+.card:hover .arr { transform: translateX(4px); }
+[dir="rtl"] .arr { transform: scaleX(-1); }
+[dir="rtl"] .card:hover .arr { transform: scaleX(-1) translateX(4px); }
+
+@media (min-width: 760px) {
+  .hero { padding-bottom: 120px; }
+  .eyebrow { margin-top: 56px; }
+  .cards { grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: -80px; }
+  .card { flex-direction: column; }
+  .card .logo-panel { --pad: 28px; width: auto; aspect-ratio: 16 / 9; border-inline-end: 0; border-bottom: 1px solid var(--line); }
+  .card-body { padding: 20px 22px 22px; }
+  .card h2 { font-size: 1.7rem; }
+}
+
+/* ---- Company page ---- */
+.sheet {
+  position: relative; max-width: 760px; margin: -72px auto 0; padding: 18px 14px 14px;
+  background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--co);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.sheet-head { text-align: center; margin-bottom: 18px; }
+.sheet-head .logo-panel { --pad: 18px; width: min(240px, 72%); aspect-ratio: 16 / 9; margin: 0 auto 14px; border: 1px solid var(--line); border-radius: 14px; }
+.sheet h1 { font: 600 clamp(1.9rem, 6vw, 2.5rem)/1.15 var(--serif); margin: 0 0 2px; }
+[lang="ar"] .sheet h1 { font-weight: 700; }
+
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 16px 0 4px; }
+.actions a {
+  padding: 9px 16px; border-radius: 999px; border: 1px solid var(--accent);
+  color: var(--accent-strong); text-decoration: none; font-size: .88rem; font-weight: 600;
+  transition: background .2s, color .2s;
+}
+.actions a:hover { background: var(--accent); color: #15130f; }
+
+/* Big profile-language selector, pinned while scrolling the (tall) profile. */
+.profile-lang {
+  position: sticky; top: 8px; z-index: 2; margin: 0 0 14px; padding: 10px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); text-align: center;
+}
+.profile-lang-label {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  color: var(--accent-strong); font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+}
+[lang="ar"] .profile-lang-label { letter-spacing: 0; font-size: .95rem; }
+.profile-lang .lang { display: flex; width: 100%; padding: 4px; background: var(--bg); border-color: var(--line); }
+.profile-lang .lang button { flex: 1; padding: 11px 6px; font-size: 1rem; color: var(--muted); }
+.profile-lang .lang button:hover { color: var(--text); }
+.profile-lang .lang button[aria-pressed="true"] { background: var(--accent); color: #15130f; box-shadow: 0 2px 8px -2px rgba(138, 106, 44, .5); }
+
+.profile { position: relative; margin: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.profile img { display: block; width: 100%; height: auto; }
+.profile p { padding: 48px 20px; text-align: center; }
+/* Full-resolution profiles can take seconds on mobile data — show a spinner meanwhile. */
+/* Placeholder matches the profiles' 2:3 shape so switching language doesn't make the page jump. */
+.profile.loading { aspect-ratio: 2 / 3; }
+.profile.loading::before {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 36px; height: 36px;
+  border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.others { max-width: 760px; margin: 36px auto 0; text-align: center; }
+.others .eyebrow { margin: 0 0 16px; color: var(--accent-strong); }
+.mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mini-card {
+  display: flex; flex-direction: column; gap: 10px; padding: 10px 10px 14px; text-decoration: none;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  font: 600 1.15rem/1.2 var(--serif); transition: transform .25s ease;
+}
+.mini-card:hover { transform: translateY(-3px); }
+.mini-card .logo-panel { --pad: 10px; aspect-ratio: 16 / 9; border-radius: 10px; }
+
+.footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 44px 16px 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .profile.loading::before { animation-duration: 3s; }
+}
