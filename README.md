@@ -12,7 +12,7 @@ Put 9 images in the `profiles` folder with exactly these names (or change the pa
 | Taj Al Najaar | `taj-alnajaar-en.jpg` | `taj-alnajaar-ar.jpg` | `taj-alnajaar-tr.jpg` |
 | Taj Asphalt | `taj-asphalt-en.jpg` | `taj-asphalt-ar.jpg` | `taj-asphalt-tr.jpg` |
 
-Tip: keep each image under ~1 MB (around 1500 px wide) so it opens fast on mobile data.
+Then run `python make_web_images.py`. It makes light copies (~400 KB each) in `profiles/web/` that the page shows so profiles open fast on mobile data. Your full-quality originals are still used for **Open full size** and **Download**. Re-run it whenever you add or replace a profile.
 
 Optional: add phone / WhatsApp / email / website for each company in `companies.js`.
 

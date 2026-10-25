@@ -33,6 +33,8 @@
         app.innerHTML = `<article class="sheet"><p class="muted">${t.notFound}</p></article>`;
         return;
       }
+      // Light copy for the page (made by make_web_images.py); the original is for "Open full size" / "Download".
+      const webCopy = path => path.replace("profiles/", "profiles/web/").replace(/\.\w+$/, ".webp");
       const name = c.name[lang], src = c.profile[lang];
       const contacts = [
         c.phone && `<a href="tel:${c.phone.replace(/\s/g, "")}">${t.call}</a>`,
@@ -63,7 +65,7 @@
             <div class="lang" role="group" aria-label="${t.profileLang}"></div>
           </div>
           <figure class="profile loading" id="profile">
-            <a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${name}" decoding="async"></a>
+            <a href="${src}" target="_blank" rel="noopener"><img src="${webCopy(src)}" alt="${name}" decoding="async"></a>
           </figure>
           <div class="actions" id="profile-actions">
             <a href="${src}" target="_blank" rel="noopener">${t.open}</a>
@@ -76,9 +78,14 @@
         </section>`;
 
       const fig = document.getElementById("profile"), img = fig.querySelector("img");
-      // Wait for decode too: a 3200×4800 image paints noticeably after "load".
-      img.onload = () => img.decode().catch(() => {}).finally(() => fig.classList.remove("loading"));
+      img.onload = () => img.decode().catch(() => {}).finally(() => {
+        fig.classList.remove("loading");
+        // Warm the cache with the other languages so the profile-language switch feels instant.
+        LANGS.filter(l => l !== lang).forEach(l => { new Image().src = webCopy(c.profile[l]); });
+      });
       img.onerror = () => {
+        // No light copy yet (make_web_images.py not re-run)? Fall back to the original.
+        if (img.getAttribute("src") !== src) { img.src = src; return; }
         fig.classList.remove("loading");
         fig.innerHTML = `<p class="muted">${t.missing}</p>`;
         document.getElementById("profile-actions").remove();
