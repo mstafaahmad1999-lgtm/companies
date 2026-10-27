@@ -28,9 +28,38 @@ function renderFounder(lang, t) {
   // No download attribute: iPhone then opens the card straight into "Create New Contact".
   $("founder-save").href = f.vcard;
   $("founder-save").innerHTML = `${CONTACT_ICON} ${t.saveContact}`;
+  if (!$("founder-save-status")) $("founder-save").after(Object.assign(document.createElement("p"),
+    { id: "founder-save-status", className: "save-status", role: "status" }));
+  $("founder-save-status").textContent = "";
+  // Fetched ahead so share() runs inside the tap itself (browsers refuse it after a slow await).
+  if (!IS_IOS && navigator.canShare && !vcfFetch) vcfFetch = fetch(f.vcard).then(r => r.blob())
+    .then(b => { vcfFile = new File([b], f.vcard, { type: "text/vcard" }); }).catch(() => {});
   $("founder-full").href = f.poster;
   $("founder-full").innerHTML = `${t.fullMessage} <span class="arr" aria-hidden="true">→</span>`;
 }
+
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let vcfFetch, vcfFile;
+
+// Save contact: the share sheet where the browser can share a .vcf file, otherwise the plain link,
+// which iPhone opens as "Create New Contact" and other browsers download. Saving always needs the visitor's OK.
+document.addEventListener("click", e => {
+  const btn = e.target.closest("#founder-save");
+  if (!btn) return;
+  const t = UI[document.documentElement.lang] || UI[LANGS[0]];
+  const say = msg => { document.getElementById("founder-save-status").textContent = msg; };
+  if (!IS_IOS && vcfFile && navigator.canShare({ files: [vcfFile] })) {
+    e.preventDefault();
+    say(t.saveShareOpen);
+    navigator.share({ files: [vcfFile] }).then(() => say(t.saveShared), err => {
+      if (err.name === "AbortError") return say(t.saveCancelled);
+      say(t.saveFallback);
+      location.href = btn.href; // share refused: fall back to the file
+    });
+    return;
+  }
+  say(IS_IOS ? t.saveIos : t.saveFallback);
+});
 
 // Tapping the QR opens a share dialog: the phone's own share sheet (AirDrop / Quick Share / WhatsApp…)
 // or copy the link. Phone-to-phone NFC isn't available to websites on any platform.
