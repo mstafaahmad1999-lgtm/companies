@@ -39,16 +39,6 @@ const FOUNDER = {
   signature: "images/signature.png",
   poster: "images/founder-poster.webp",
   vcard: "amanj-nyazi.vcf", // contact card for the "Save contact" button
-  // Same details for Android's "New contact" form (keep in step with the .vcf). Types: 2 = mobile / work.
-  androidContact: {
-    name: "Amanj Nyazi", job_title: "Owner and CEO",
-    phone: "+9647701548776", phone_type: 2,
-    secondary_phone: "+9647504981292", secondary_phone_type: 2,
-    tertiary_phone: "+905303261006", tertiary_phone_type: 2,
-    email: "info@tajalnajarco.com", email_type: 2,
-    postal: "Erbil, Iraq", postal_type: 2,
-    notes: "Mansur, Baghdad, Iraq",
-  },
   name: { en: "Mr. Amanj Nyazi", ar: "السيد أمانج نيازي", tr: "Sayın Amanj Nyazi" },
   title: { en: "Founder & Owner", ar: "المؤسس والمالك", tr: "Kurucu ve Sahibi" },
   quote: {
