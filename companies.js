@@ -33,6 +33,20 @@ const COMPANIES = [
   },
 ];
 
+// Founder section on the home page. <em> marks the words shown in gold.
+const FOUNDER = {
+  photo: "images/founder.webp",
+  signature: "images/signature.png",
+  poster: "images/founder-poster.webp",
+  name: { en: "Mr. Amanj Nyazi", ar: "السيد أمانج نيازي", tr: "Sayın Amanj Nyazi" },
+  title: { en: "Founder & Owner", ar: "المؤسس والمالك", tr: "Kurucu ve Sahibi" },
+  quote: {
+    en: "<em>Quality products</em>, <em>strong partnerships</em> and <em>long-term relationships</em> are the foundation of a more stable and prosperous future.",
+    ar: "<em>المنتجات عالية الجودة</em> و<em>الشراكات القوية</em> و<em>العلاقات طويلة الأمد</em> هي أساس مستقبلٍ أكثر استقرارًا وازدهارًا.",
+    tr: "<em>Kaliteli ürünler</em>, <em>güçlü ortaklıklar</em> ve <em>uzun vadeli ilişkiler</em>, daha istikrarlı ve müreffeh bir geleceğin temelidir.",
+  },
+};
+
 // Interface text. The first language is the default.
 const UI = {
   en: {
@@ -40,6 +54,8 @@ const UI = {
     title: "Our Companies", headline: "Three companies, one standard of quality",
     subtitle: "Furniture, agriculture and bitumen. Choose a company to view its profile.",
     view: "View profile", others: "Our other companies", profileLang: "Profile language",
+    explore: "Explore our companies", founderLink: "Message from the founder",
+    founderEyebrow: "A word from our founder", fullMessage: "View the full message",
     back: "All companies", call: "Call", whatsapp: "WhatsApp", email: "Email", website: "Website",
     download: "Download profile", open: "Open full size",
     notFound: "Company not found.", missing: "This profile is not available yet.",
@@ -49,6 +65,8 @@ const UI = {
     title: "شركاتنا", headline: "ثلاث شركات، معيار واحد للجودة",
     subtitle: "الأثاث والزراعة والبيتومين. اختر شركة لعرض ملفها التعريفي.",
     view: "عرض الملف التعريفي", others: "شركاتنا الأخرى", profileLang: "لغة الملف التعريفي",
+    explore: "استكشف شركاتنا", founderLink: "كلمة المؤسس",
+    founderEyebrow: "كلمة المؤسس", fullMessage: "عرض الرسالة كاملة",
     back: "جميع الشركات", call: "اتصال", whatsapp: "واتساب", email: "البريد الإلكتروني", website: "الموقع الإلكتروني",
     download: "تحميل الملف التعريفي", open: "عرض بالحجم الكامل",
     notFound: "الشركة غير موجودة.", missing: "هذا الملف التعريفي غير متوفر بعد.",
@@ -58,6 +76,8 @@ const UI = {
     title: "Şirketlerimiz", headline: "Üç şirket, tek kalite standardı",
     subtitle: "Mobilya, tarım ve bitüm. Profilini görmek için bir şirket seçin.",
     view: "Profili görüntüle", others: "Diğer şirketlerimiz", profileLang: "Profil dili",
+    explore: "Şirketlerimizi keşfedin", founderLink: "Kurucumuzun mesajı",
+    founderEyebrow: "Kurucumuzdan bir mesaj", fullMessage: "Mesajın tamamını görüntüle",
     back: "Tüm şirketler", call: "Ara", whatsapp: "WhatsApp", email: "E-posta", website: "Web sitesi",
     download: "Profili indir", open: "Tam boyutta aç",
     notFound: "Şirket bulunamadı.", missing: "Bu profil henüz mevcut değil.",

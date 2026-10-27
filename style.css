@@ -31,7 +31,23 @@ img { max-width: 100%; }
   background: radial-gradient(120% 90% at 50% 0%, #2b2519 0%, var(--ink) 62%);
   color: var(--ink-text);
 }
-.hero { text-align: center; padding: 12px 0 104px; }
+.hero { position: relative; text-align: center; padding: 12px 0 104px; }
+/* Thin double gold frame, echoing the printed QR card */
+.hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--accent); border-bottom: 0; }
+.hero::before { inset: 10px 10px 0; opacity: .45; }
+.hero::after { inset: 17px 17px 0; opacity: .18; }
+.hero .wrap { position: relative; z-index: 1; }
+html { scroll-behavior: smooth; }
+
+.hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px;
+  font-weight: 700; font-size: .92rem; text-decoration: none; transition: background .2s, color .2s, border-color .2s;
+}
+.btn-gold { background: var(--accent); color: #15130f; }
+.btn-gold:hover { background: #d8b56b; }
+.btn-ghost { border: 1px solid rgba(255, 255, 255, .25); color: var(--ink-text); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 .band { padding: 12px 0 92px; }
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; }
 .hero .topbar { justify-content: flex-end; }
@@ -160,9 +176,49 @@ img { max-width: 100%; }
 .mini-card:hover { transform: translateY(-3px); }
 .mini-card .logo-panel { --pad: 10px; aspect-ratio: 16 / 9; border-radius: 10px; }
 
+/* ---- Founder section (home) ---- */
+.founder {
+  margin-top: 56px; padding: 56px 0 64px; color: var(--ink-text); scroll-margin-top: 0;
+  background: radial-gradient(80% 60% at 25% 35%, rgba(201, 165, 92, .13), transparent 65%), var(--ink);
+}
+.founder-grid { display: grid; gap: 40px; align-items: center; }
+.founder-photo { position: relative; display: block; width: min(320px, 78%); margin: 0 auto; }
+.founder-photo img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; }
+/* Offset gold frame behind the portrait (flips sides in Arabic) */
+.founder-photo::before {
+  content: ""; position: absolute; inset-block: 14px -14px; inset-inline: 14px -14px;
+  border: 1.5px solid var(--accent); border-radius: 6px;
+}
+.founder-text { text-align: center; }
+.founder .eyebrow { margin: 0 0 18px; }
+.founder blockquote { margin: 0; font: italic 500 clamp(1.45rem, 4.6vw, 2.15rem)/1.38 var(--serif); text-wrap: pretty; }
+.founder blockquote::before { content: "“"; display: block; height: .55em; color: var(--accent); font: 600 4.6rem/1 var(--serif); }
+.founder blockquote em { color: var(--accent); font-style: inherit; }
+[lang="ar"] .founder blockquote { font-style: normal; font-weight: 500; line-height: 1.75; font-size: clamp(1.25rem, 4vw, 1.75rem); }
+.signature { display: block; width: 170px; height: auto; margin: 22px auto 2px; }
+.founder-name { margin: 0; color: var(--accent); font: 600 1.55rem/1.2 var(--serif); }
+[lang="ar"] .founder-name { font-weight: 700; font-size: 1.35rem; }
+.founder-title { margin: 6px 0 0; color: var(--ink-muted); font-size: .76rem; letter-spacing: .3em; text-transform: uppercase; }
+[lang="ar"] .founder-title { letter-spacing: 0; font-size: .95rem; }
+.text-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; padding-bottom: 2px;
+  color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: none; border-bottom: 1px solid rgba(201, 165, 92, .4);
+}
+.text-link:hover .arr { transform: translateX(4px); }
+[dir="rtl"] .text-link:hover .arr { transform: scaleX(-1) translateX(4px); }
+
+@media (min-width: 760px) {
+  .founder { margin-top: 80px; padding: 88px 0; }
+  .founder-grid { grid-template-columns: 5fr 7fr; gap: 72px; }
+  .founder-photo { width: 100%; max-width: 380px; }
+  .founder-text { text-align: start; }
+  .signature { margin-inline: 0; }
+}
+
 .footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 44px 16px 32px; }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   * { transition: none !important; }
   .profile.loading::before { animation-duration: 3s; }
 }
