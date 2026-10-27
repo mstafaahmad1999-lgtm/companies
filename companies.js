@@ -51,10 +51,8 @@ const FOUNDER = {
 const UI = {
   en: {
     label: "English", dir: "ltr",
-    shareTitle: "Share this website", tapHint: "Tap the QR code to share or write to NFC",
-    nfcWrite: "Write to NFC tag", nfcWaiting: "Hold an NFC tag or card to the back of your phone…",
-    nfcDone: "Done! Tapping any phone on this tag now opens the website.", nfcFail: "Couldn't write the tag. Please try again.",
-    nfcNote: "NFC tag writing works in Chrome on Android. On iPhone, use Share (AirDrop).",
+    shareTitle: "Share this website", tapHint: "Tap the QR code to share",
+    shareHint: "iPhone: Share opens AirDrop, or bring two iPhones close together. Android: choose Quick Share to send to a nearby phone.",
     share: "Share…", copy: "Copy link", copied: "Link copied", close: "Close",
     title: "Our Companies", headline: "Three companies, one standard of quality",
     subtitle: "Furniture, agriculture and bitumen. Choose a company to view its profile.",
@@ -67,10 +65,8 @@ const UI = {
   },
   ar: {
     label: "العربية", dir: "rtl",
-    shareTitle: "شارك الموقع", tapHint: "اضغط على رمز QR للمشاركة أو للكتابة على NFC",
-    nfcWrite: "كتابة على بطاقة NFC", nfcWaiting: "قرّب بطاقة NFC من ظهر هاتفك…",
-    nfcDone: "تم! أي هاتف يلمس هذه البطاقة سيفتح الموقع الآن.", nfcFail: "تعذّرت الكتابة على البطاقة. حاول مرة أخرى.",
-    nfcNote: "الكتابة على بطاقات NFC تعمل في متصفح Chrome على أندرويد. على الآيفون استخدم المشاركة (AirDrop).",
+    shareTitle: "شارك الموقع", tapHint: "اضغط على رمز QR للمشاركة",
+    shareHint: "آيفون: زر المشاركة يفتح AirDrop، أو قرّب جهازَي آيفون من بعضهما. أندرويد: اختر Quick Share للإرسال إلى هاتف قريب.",
     share: "مشاركة…", copy: "نسخ الرابط", copied: "تم نسخ الرابط", close: "إغلاق",
     title: "شركاتنا", headline: "ثلاث شركات، معيار واحد للجودة",
     subtitle: "الأثاث والزراعة والبيتومين. اختر شركة لعرض ملفها التعريفي.",
@@ -83,10 +79,8 @@ const UI = {
   },
   tr: {
     label: "Türkçe", dir: "ltr",
-    shareTitle: "Web sitesini paylaş", tapHint: "Paylaşmak veya NFC'ye yazmak için QR koda dokunun",
-    nfcWrite: "NFC etiketine yaz", nfcWaiting: "Bir NFC etiketini veya kartı telefonunuzun arkasına tutun…",
-    nfcDone: "Tamamlandı! Bu etikete dokunan her telefon artık web sitesini açar.", nfcFail: "Etikete yazılamadı. Lütfen tekrar deneyin.",
-    nfcNote: "NFC etiketine yazma, Android'de Chrome'da çalışır. iPhone'da Paylaş'ı (AirDrop) kullanın.",
+    shareTitle: "Web sitesini paylaş", tapHint: "Paylaşmak için QR koda dokunun",
+    shareHint: "iPhone: Paylaş, AirDrop'u açar ya da iki iPhone'u birbirine yaklaştırın. Android: Yakındaki bir telefona göndermek için Quick Share'i seçin.",
     share: "Paylaş…", copy: "Bağlantıyı kopyala", copied: "Bağlantı kopyalandı", close: "Kapat",
     title: "Şirketlerimiz", headline: "Üç şirket, tek kalite standardı",
     subtitle: "Mobilya, tarım ve bitüm. Profilini görmek için bir şirket seçin.",

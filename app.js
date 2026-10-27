@@ -27,10 +27,9 @@ function renderFounder(lang, t) {
   $("founder-full").innerHTML = `${t.fullMessage} <span class="arr" aria-hidden="true">→</span>`;
 }
 
-// Tapping the QR opens a share dialog: write the link to an NFC tag (Web NFC: Chrome on Android only),
-// the phone's own share sheet (Quick Share / AirDrop / WhatsApp…), or copy the link.
-// Phone-to-phone NFC isn't available to websites on any platform, so a tag is the NFC route.
-const NFC_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 8.5a5 5 0 0 1 0 7"/><path d="M11 6a9 9 0 0 1 0 12"/><path d="M15 3.5a13 13 0 0 1 0 17"/></svg>`;
+// Tapping the QR opens a share dialog: the phone's own share sheet (AirDrop / Quick Share / WhatsApp…)
+// or copy the link. Phone-to-phone NFC isn't available to websites on any platform.
+const SHARE_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>`;
 
 function setupQrShare(getUrl) {
   const text = () => UI[document.documentElement.lang] || UI[LANGS[0]];
@@ -40,30 +39,27 @@ function setupQrShare(getUrl) {
   qr.setAttribute("aria-label", text().shareTitle);
   const hint = document.createElement("p");
   hint.className = "qr-hint";
-  hint.innerHTML = `${NFC_ICON}<span>${text().tapHint}</span>`;
+  hint.innerHTML = `${SHARE_ICON}<span>${text().tapHint}</span>`;
   qr.closest(".qr-zone").after(hint);
 
   const dlg = document.createElement("dialog");
   dlg.className = "share-dialog";
   document.body.append(dlg);
-  let abort;
 
   const open = () => {
-    const t = text(), nfc = "NDEFReader" in window;
+    const t = text();
     dlg.innerHTML = `<div class="share-body">
       <h2>${t.shareTitle}</h2>
-      ${nfc ? `<button class="btn btn-gold" data-act="nfc">${NFC_ICON} ${t.nfcWrite}</button>` : ""}
-      ${navigator.share ? `<button class="btn btn-ghost" data-act="share">${t.share}</button>` : ""}
+      ${navigator.share ? `<button class="btn btn-gold" data-act="share">${SHARE_ICON} ${t.share}</button>` : ""}
       <button class="btn btn-ghost" data-act="copy">${t.copy}</button>
       <p class="share-status" role="status"></p>
-      ${nfc ? "" : `<p class="share-note">${t.nfcNote}</p>`}
+      ${navigator.share ? `<p class="share-note">${t.shareHint}</p>` : ""}
       <button class="share-close" data-act="close">${t.close}</button>
     </div>`;
     dlg.showModal();
   };
   qr.addEventListener("click", open);
   qr.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
-  dlg.addEventListener("close", () => abort?.abort()); // stop waiting for a tag
 
   dlg.addEventListener("click", async e => {
     if (e.target === dlg) return dlg.close(); // backdrop
@@ -75,17 +71,6 @@ function setupQrShare(getUrl) {
     if (act === "copy") {
       try { await navigator.clipboard.writeText(url); status.textContent = t.copied; }
       catch { status.textContent = url; } // clipboard blocked: show it to copy by hand
-    }
-    if (act === "nfc") {
-      abort?.abort();
-      abort = new AbortController();
-      status.textContent = t.nfcWaiting;
-      try {
-        await new NDEFReader().write({ records: [{ recordType: "url", data: url }] }, { signal: abort.signal });
-        status.textContent = t.nfcDone;
-      } catch (err) {
-        if (err.name !== "AbortError") status.textContent = t.nfcFail;
-      }
     }
   });
 }
