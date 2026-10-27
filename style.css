@@ -208,6 +208,7 @@ html { scroll-behavior: smooth; }
 [lang="ar"] .founder-name { font-weight: 700; font-size: 1.35rem; }
 .founder-title { margin: 6px 0 0; color: var(--ink-muted); font-size: .76rem; letter-spacing: .3em; text-transform: uppercase; }
 [lang="ar"] .founder-title { letter-spacing: 0; font-size: .95rem; }
+.save-contact { display: flex; width: fit-content; margin: 22px auto 0; }
 .text-link {
   display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; padding-bottom: 2px;
   color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: none; border-bottom: 1px solid rgba(201, 165, 92, .4);
@@ -220,7 +221,7 @@ html { scroll-behavior: smooth; }
   .founder-grid { grid-template-columns: 5fr 7fr; gap: 72px; }
   .founder-photo { width: 100%; max-width: 380px; }
   .founder-text { text-align: start; }
-  .signature { margin-inline: 0; }
+  .signature, .save-contact { margin-inline: 0; }
 }
 
 /* ---- Scan block: QR with gold corners (bottom of home + qr.html) ---- */

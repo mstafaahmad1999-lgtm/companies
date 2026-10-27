@@ -12,6 +12,8 @@ function currentLang() {
   return LANGS[0];
 }
 
+const CONTACT_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M19 8v6M16 11h6"/></svg>`;
+
 // Fills the founder block (same element ids on index.html and qr.html).
 function renderFounder(lang, t) {
   const f = FOUNDER, $ = id => document.getElementById(id);
@@ -23,6 +25,9 @@ function renderFounder(lang, t) {
   $("founder-quote").innerHTML = f.quote[lang];
   $("founder-name").textContent = f.name[lang];
   $("founder-title").textContent = f.title[lang];
+  // No download attribute: iPhone then opens the card straight into "Create New Contact".
+  $("founder-save").href = f.vcard;
+  $("founder-save").innerHTML = `${CONTACT_ICON} ${t.saveContact}`;
   $("founder-full").href = f.poster;
   $("founder-full").innerHTML = `${t.fullMessage} <span class="arr" aria-hidden="true">→</span>`;
 }
