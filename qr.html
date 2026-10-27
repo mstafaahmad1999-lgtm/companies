@@ -147,6 +147,7 @@
 
     input.addEventListener("input", render);
     render();
+    setupQrShare(() => input.value.trim()); // shares the same address the QR shows
     startPage(renderFounder); // language switch drives the founder message
   </script>
 </body>
