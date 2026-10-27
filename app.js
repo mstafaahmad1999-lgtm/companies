@@ -26,7 +26,14 @@ function renderFounder(lang, t) {
   $("founder-name").textContent = f.name[lang];
   $("founder-title").textContent = f.title[lang];
   // No download attribute: iPhone then opens the card straight into "Create New Contact".
-  $("founder-save").href = f.vcard;
+  // Android: ask Chrome to open the filled-in "New contact" form; if it refuses, it falls back to the .vcf download.
+  const vcf = new URL(f.vcard, location.href).href;
+  $("founder-save").href = /Android/i.test(navigator.userAgent)
+    ? "intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/raw_contact;" +
+      Object.entries(f.androidContact).map(([k, v]) =>
+        `${typeof v === "number" ? "i" : "S"}.${k}=${encodeURIComponent(v)};`).join("") +
+      `S.browser_fallback_url=${encodeURIComponent(vcf)};end`
+    : vcf;
   $("founder-save").innerHTML = `${CONTACT_ICON} ${t.saveContact}`;
   $("founder-full").href = f.poster;
   $("founder-full").innerHTML = `${t.fullMessage} <span class="arr" aria-hidden="true">→</span>`;
