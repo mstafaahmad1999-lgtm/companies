@@ -18,6 +18,10 @@
 }
 /* Latin serif has no Arabic glyphs — Arabic uses Tajawal throughout. */
 [lang="ar"] { --serif: "Tajawal", Tahoma, sans-serif; --sans: "Tajawal", Tahoma, sans-serif; }
+/* Fixed English/Turkish text inside an Arabic page keeps the Latin fonts */
+[lang="ar"] [lang="en"], [lang="ar"] [lang="tr"] {
+  --serif: "Cormorant Garamond", Georgia, serif; --sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
@@ -31,15 +35,19 @@ img { max-width: 100%; }
   background: radial-gradient(120% 90% at 50% 0%, #2b2519 0%, var(--ink) 62%);
   color: var(--ink-text);
 }
-.hero { position: relative; text-align: center; padding: 12px 0 104px; }
+.hero {
+  position: relative; text-align: center; padding: 12px 0 56px;
+  background: radial-gradient(70% 50% at 50% 45%, rgba(201, 165, 92, .12), transparent 70%),
+              radial-gradient(120% 90% at 50% 0%, #2b2519 0%, var(--ink) 62%);
+}
 /* Thin double gold frame, echoing the printed QR card */
-.hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--accent); border-bottom: 0; }
-.hero::before { inset: 10px 10px 0; opacity: .45; }
-.hero::after { inset: 17px 17px 0; opacity: .18; }
+.hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--accent); }
+.hero::before { inset: 10px; opacity: .45; }
+.hero::after { inset: 17px; opacity: .18; }
 .hero .wrap { position: relative; z-index: 1; }
 html { scroll-behavior: smooth; }
 
-.hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+.hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px;
   font-weight: 700; font-size: .92rem; text-decoration: none; transition: background .2s, color .2s, border-color .2s;
@@ -57,14 +65,17 @@ html { scroll-behavior: smooth; }
   color: var(--accent); font-size: .75rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase;
 }
 .eyebrow::before, .eyebrow::after { content: ""; width: 28px; height: 1px; background: currentColor; opacity: .6; }
-[lang="ar"] .eyebrow { letter-spacing: 0; font-size: .95rem; }
+[lang="ar"] .eyebrow:not([lang="en"]) { letter-spacing: 0; font-size: .95rem; }
 
-.hero h1 {
-  font: 500 clamp(2.2rem, 7vw, 3.8rem)/1.08 var(--serif);
-  margin: 0 auto 16px; max-width: 15ch; text-wrap: balance;
+/* Companies section heading (home, below the founder) */
+.companies { text-align: center; padding-top: 20px; }
+.companies .eyebrow { color: var(--accent-strong); }
+.companies h2 {
+  font: 500 clamp(2.1rem, 6.5vw, 3.4rem)/1.08 var(--serif);
+  margin: 0 auto 14px; max-width: 15ch; text-wrap: balance;
 }
-[lang="ar"] .hero h1 { font-weight: 700; line-height: 1.35; font-size: clamp(1.9rem, 6vw, 3.2rem); }
-.lead { color: var(--ink-muted); max-width: 44ch; margin: 0 auto; text-wrap: pretty; }
+[lang="ar"] .companies h2 { font-weight: 700; line-height: 1.35; font-size: clamp(1.8rem, 5.5vw, 2.9rem); }
+.lead { color: var(--muted); max-width: 44ch; margin: 0 auto; text-wrap: pretty; }
 
 .lang {
   display: inline-flex; padding: 3px; border-radius: 999px;
@@ -81,9 +92,9 @@ html { scroll-behavior: smooth; }
 .back:hover { color: var(--ink-text); }
 
 /* ---- Company cards (home) ---- */
-.cards { display: grid; gap: 16px; margin-top: -68px; position: relative; }
+.cards { display: grid; gap: 16px; margin-top: 30px; position: relative; }
 .card {
-  display: flex; background: var(--card); color: inherit; text-decoration: none;
+  display: flex; background: var(--card); color: inherit; text-decoration: none; text-align: start;
   border: 1px solid var(--line); border-top: 3px solid var(--co); border-radius: var(--radius);
   overflow: hidden; box-shadow: var(--shadow); transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -100,8 +111,8 @@ html { scroll-behavior: smooth; }
 
 .card-body { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 16px 18px; min-width: 0; }
 .card-index { font: 600 .95rem var(--serif); color: var(--accent); letter-spacing: .12em; }
-.card h2 { font: 600 1.45rem/1.2 var(--serif); margin: 0; }
-[lang="ar"] .card h2 { font-weight: 700; font-size: 1.3rem; }
+.card h3 { font: 600 1.45rem/1.2 var(--serif); margin: 0; }
+[lang="ar"] .card h3 { font-weight: 700; font-size: 1.3rem; }
 .card p { margin: 0; color: var(--muted); font-size: .9rem; }
 .cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--accent-strong); font-weight: 600; font-size: .88rem; }
 .arr { display: inline-block; transition: transform .25s ease; }
@@ -110,13 +121,13 @@ html { scroll-behavior: smooth; }
 [dir="rtl"] .card:hover .arr { transform: scaleX(-1) translateX(4px); }
 
 @media (min-width: 760px) {
-  .hero { padding-bottom: 120px; }
+  .hero { padding-bottom: 72px; }
   .eyebrow { margin-top: 56px; }
-  .cards { grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: -80px; }
+  .cards { grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
   .card { flex-direction: column; }
   .card .logo-panel { --pad: 28px; width: auto; aspect-ratio: 16 / 9; border-inline-end: 0; border-bottom: 1px solid var(--line); }
   .card-body { padding: 20px 22px 22px; }
-  .card h2 { font-size: 1.7rem; }
+  .card h3 { font-size: 1.7rem; }
 }
 
 /* ---- Company page ---- */
@@ -176,13 +187,10 @@ html { scroll-behavior: smooth; }
 .mini-card:hover { transform: translateY(-3px); }
 .mini-card .logo-panel { --pad: 10px; aspect-ratio: 16 / 9; border-radius: 10px; }
 
-/* ---- Founder section (home) ---- */
-.founder {
-  margin-top: 56px; padding: 56px 0 64px; color: var(--ink-text); scroll-margin-top: 0;
-  background: radial-gradient(80% 60% at 25% 35%, rgba(201, 165, 92, .13), transparent 65%), var(--ink);
-}
+/* ---- Founder section (top of home + QR page; sits on the dark band) ---- */
+.founder { color: var(--ink-text); }
 .founder-grid { display: grid; gap: 40px; align-items: center; }
-.founder-photo { position: relative; display: block; width: min(320px, 78%); margin: 0 auto; }
+.founder-photo { position: relative; display: block; width: min(270px, 68%); margin: 0 auto; }
 .founder-photo img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; }
 /* Offset gold frame behind the portrait (flips sides in Arabic) */
 .founder-photo::before {
@@ -190,7 +198,7 @@ html { scroll-behavior: smooth; }
   border: 1.5px solid var(--accent); border-radius: 6px;
 }
 .founder-text { text-align: center; }
-.founder .eyebrow { margin: 0 0 18px; }
+.founder .eyebrow { margin: 14px 0 28px; }
 .founder blockquote { margin: 0; font: italic 500 clamp(1.45rem, 4.6vw, 2.15rem)/1.38 var(--serif); text-wrap: pretty; }
 .founder blockquote::before { content: "“"; display: block; height: .55em; color: var(--accent); font: 600 4.6rem/1 var(--serif); }
 .founder blockquote em { color: var(--accent); font-style: inherit; }
@@ -208,7 +216,7 @@ html { scroll-behavior: smooth; }
 [dir="rtl"] .text-link:hover .arr { transform: scaleX(-1) translateX(4px); }
 
 @media (min-width: 760px) {
-  .founder { margin-top: 80px; padding: 88px 0; }
+  .founder .eyebrow { margin: 24px 0 44px; }
   .founder-grid { grid-template-columns: 5fr 7fr; gap: 72px; }
   .founder-photo { width: 100%; max-width: 380px; }
   .founder-text { text-align: start; }

@@ -13,63 +13,48 @@
   <script src="app.js"></script>
 </head>
 <body>
+  <!-- Founder first, then the companies -->
   <header class="hero">
     <div class="wrap">
       <div class="topbar"><div class="lang" id="lang" role="group" aria-label="Language"></div></div>
-      <p class="eyebrow" id="eyebrow"></p>
-      <h1 id="headline"></h1>
-      <p class="lead" id="lead"></p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="#companies" id="cta-explore"></a>
-        <a class="btn btn-ghost" href="#founder" id="cta-founder"></a>
-      </div>
+      <section class="founder" id="founder">
+        <p class="eyebrow" id="founder-eyebrow"></p>
+        <div class="founder-grid">
+          <a class="founder-photo" id="founder-photo" target="_blank" rel="noopener"><img alt="" id="founder-img"></a>
+          <div class="founder-text">
+            <blockquote id="founder-quote"></blockquote>
+            <img class="signature" id="founder-sign" alt="">
+            <p class="founder-name" id="founder-name"></p>
+            <p class="founder-title" id="founder-title"></p>
+            <a class="text-link" id="founder-full" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+      </section>
+      <div class="hero-ctas"><a class="btn btn-gold" href="#companies" id="cta-explore"></a></div>
     </div>
   </header>
-  <main>
-    <div class="wrap"><nav class="cards" id="companies"></nav></div>
 
-    <section class="founder" id="founder">
-      <div class="wrap founder-grid">
-        <a class="founder-photo" id="founder-photo" target="_blank" rel="noopener"><img alt="" id="founder-img"></a>
-        <div class="founder-text">
-          <p class="eyebrow" id="founder-eyebrow"></p>
-          <blockquote id="founder-quote"></blockquote>
-          <img class="signature" id="founder-sign" alt="">
-          <p class="founder-name" id="founder-name"></p>
-          <p class="founder-title" id="founder-title"></p>
-          <a class="text-link" id="founder-full" target="_blank" rel="noopener"></a>
-        </div>
-      </div>
-    </section>
+  <main class="wrap companies" id="companies">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h2 id="headline"></h2>
+    <p class="lead" id="lead"></p>
+    <nav class="cards" id="cards"></nav>
   </main>
   <footer class="footer" id="footer"></footer>
   <script>
     startPage((lang, t) => {
       document.title = t.title;
+      renderFounder(lang, t);
+      document.getElementById("cta-explore").innerHTML = `${t.explore} <span aria-hidden="true">↓</span>`;
       document.getElementById("eyebrow").textContent = t.title;
       document.getElementById("headline").textContent = t.headline;
       document.getElementById("lead").textContent = t.subtitle;
-      document.getElementById("cta-explore").textContent = t.explore;
-      document.getElementById("cta-founder").textContent = t.founderLink;
-
-      const f = FOUNDER, $ = id => document.getElementById(id);
-      $("founder-photo").href = f.poster;
-      $("founder-img").src = f.photo;
-      $("founder-img").alt = f.name[lang];
-      $("founder-sign").src = f.signature;
-      $("founder-eyebrow").textContent = t.founderEyebrow;
-      $("founder-quote").innerHTML = f.quote[lang];
-      $("founder-name").textContent = f.name[lang];
-      $("founder-title").textContent = f.title[lang];
-      $("founder-full").href = f.poster;
-      $("founder-full").innerHTML = `${t.fullMessage} <span class="arr" aria-hidden="true">→</span>`;
-
-      document.getElementById("companies").innerHTML = COMPANIES.map((c, i) => `
+      document.getElementById("cards").innerHTML = COMPANIES.map((c, i) => `
         <a class="card" style="--co:${c.accent}" href="company.html?id=${encodeURIComponent(c.id)}&lang=${lang}">
           <span class="logo-panel"><img src="${c.logo}" alt=""></span>
           <span class="card-body">
             <span class="card-index">0${i + 1}</span>
-            <h2>${c.name[lang]}</h2>
+            <h3>${c.name[lang]}</h3>
             <p>${c.sector[lang]}</p>
             <span class="cta">${t.view} <span class="arr" aria-hidden="true">→</span></span>
           </span>

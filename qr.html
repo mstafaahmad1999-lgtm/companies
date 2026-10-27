@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&family=Tajawal:wght@500;700&display=swap">
   <link rel="stylesheet" href="style.css">
   <script src="companies.js"></script>
+  <script src="app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
   <style>
     /* Same look as the printed QR card (print/qr-card.html) */
@@ -26,6 +27,20 @@
     .d1 { top: 7px; left: 7px; } .d2 { top: 7px; right: 7px; } .d3 { bottom: 7px; left: 7px; } .d4 { bottom: 7px; right: 7px; }
 
     .qr-card .eyebrow { margin: 18px 0 12px; }
+
+    /* Compact founder block at the top */
+    .qr-card .lang { margin-top: 6px; }
+    .qr-card .founder .eyebrow { margin: 22px 0 22px; }
+    .qr-card .founder-grid { gap: 30px; grid-template-columns: 1fr; } /* card is narrow even on desktop */
+    .qr-card .founder-photo { width: min(200px, 58%); }
+    .qr-card .founder blockquote { font-size: 1.35rem; }
+    [lang="ar"] .qr-card .founder blockquote { font-size: 1.2rem; }
+    .qr-card .founder blockquote::before { font-size: 3.6rem; }
+    .qr-card .founder-text { text-align: center; }
+    .qr-card .signature { width: 140px; margin-inline: auto; }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 38px 0 10px; color: var(--accent); }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .4; }
+    .divider i { width: 8px; height: 8px; background: currentColor; transform: rotate(45deg); }
     h1 { font: 500 clamp(2.1rem, 8.5vw, 3rem)/1.05 var(--serif); margin: 0; }
     h1 em { color: var(--accent); }
     .ar { margin: 14px 0 0; font: 700 1.3rem/1.5 "Tajawal", sans-serif; direction: rtl; }
@@ -69,8 +84,24 @@
   <main class="qr-card">
     <i class="diamond d1"></i><i class="diamond d2"></i><i class="diamond d3"></i><i class="diamond d4"></i>
 
-    <p class="eyebrow">Our Companies</p>
-    <h1>Scan to <em>discover</em><br>our companies</h1>
+    <div class="lang" id="lang" role="group" aria-label="Language"></div>
+    <section class="founder">
+      <p class="eyebrow" id="founder-eyebrow"></p>
+      <div class="founder-grid">
+        <a class="founder-photo" id="founder-photo" target="_blank" rel="noopener"><img alt="" id="founder-img"></a>
+        <div class="founder-text">
+          <blockquote id="founder-quote"></blockquote>
+          <img class="signature" id="founder-sign" alt="">
+          <p class="founder-name" id="founder-name"></p>
+          <p class="founder-title" id="founder-title"></p>
+          <a class="text-link" id="founder-full" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+    </section>
+    <div class="divider" aria-hidden="true"><i></i></div>
+
+    <p class="eyebrow" lang="en">Our Companies</p>
+    <h1 lang="en">Scan to <em>discover</em><br>our companies</h1>
     <p class="ar" lang="ar">امسح الرمز لاكتشاف شركاتنا</p>
     <p class="tr" lang="tr">Şirketlerimizi keşfetmek için okutun</p>
 
@@ -79,18 +110,18 @@
       <i class="bracket b1"></i><i class="bracket b2"></i><i class="bracket b3"></i><i class="bracket b4"></i>
     </div>
 
-    <div class="chips"><span>English</span><span lang="ar">العربية</span><span>Türkçe</span></div>
+    <div class="chips"><span lang="en">English</span><span lang="ar">العربية</span><span lang="tr">Türkçe</span></div>
 
-    <a class="btn btn-gold go" id="go" href="./">Go to the website <span class="arr" aria-hidden="true">→</span></a>
-    <div class="downloads">
+    <a class="btn btn-gold go" id="go" lang="en" href="./">Go to the website <span class="arr" aria-hidden="true">→</span></a>
+    <div class="downloads" lang="en">
       <button class="btn btn-ghost" id="png">Download PNG</button>
       <button class="btn btn-ghost" id="svg">Download SVG (for print)</button>
     </div>
 
     <nav class="logos" id="logos" aria-label="Our companies"></nav>
 
-    <p class="url" id="url-text"></p>
-    <details>
+    <p class="url" id="url-text" lang="en"></p>
+    <details lang="en">
       <summary>Change QR address</summary>
       <input id="url" type="url" aria-label="Portal address">
     </details>
@@ -134,6 +165,7 @@
 
     input.addEventListener("input", render);
     render();
+    startPage(renderFounder); // language switch drives the founder message
   </script>
 </body>
 </html>
