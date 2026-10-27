@@ -223,6 +223,41 @@ html { scroll-behavior: smooth; }
   .signature { margin-inline: 0; }
 }
 
+/* ---- Scan block: QR with gold corners (bottom of home + qr.html) ---- */
+.scan-title { font: 500 clamp(2.1rem, 8.5vw, 3rem)/1.05 var(--serif); margin: 0; }
+.scan-title em { color: var(--accent); }
+.ar { margin: 14px 0 0; font: 700 1.3rem/1.5 "Tajawal", sans-serif; direction: rtl; }
+.tr { margin: 2px 0 0; color: var(--ink-muted); font-size: .95rem; }
+
+.qr-zone { position: relative; width: min(290px, 74vw); aspect-ratio: 1; margin: 40px auto 0; }
+#qr {
+  /* 9% padding ≈ 4 QR modules of white quiet zone, which scanners need */
+  width: 100%; height: 100%; padding: 9%; background: #fff; border-radius: 18px;
+  box-shadow: 0 0 0 7px rgba(201, 165, 92, .14), 0 24px 60px -18px rgba(0, 0, 0, .8);
+}
+#qr svg { display: block; width: 100%; height: 100%; }
+.bracket { position: absolute; width: 46px; height: 46px; border: 0 solid var(--accent); }
+.b1 { top: -20px; left: -20px; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; }
+.b2 { top: -20px; right: -20px; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 14px; }
+.b3 { bottom: -20px; left: -20px; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 14px; }
+.b4 { bottom: -20px; right: -20px; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 14px; }
+
+.chips { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+.chips span { padding: 5px 14px; border: 1px solid rgba(201, 165, 92, .55); border-radius: 999px; color: var(--accent); font-size: .85rem; font-weight: 600; }
+.chips span[lang="ar"] { font-family: "Tajawal", sans-serif; font-weight: 700; }
+
+/* Dark band holding the scan block at the bottom of the home page */
+.scan {
+  position: relative; margin-top: 64px; padding: 56px 16px 60px; text-align: center; color: var(--ink-text);
+  background: radial-gradient(70% 50% at 50% 55%, rgba(201, 165, 92, .14), transparent 70%),
+              radial-gradient(120% 90% at 50% 100%, #2b2519 0%, var(--ink) 62%);
+}
+.scan::before, .scan::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--accent); }
+.scan::before { inset: 10px; opacity: .45; }
+.scan::after { inset: 17px; opacity: .18; }
+.scan .eyebrow { margin: 0 0 12px; }
+.scan + .footer { background: var(--ink); color: var(--ink-muted); } /* page ends on the dark band */
+
 .footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 44px 16px 32px; }
 
 @media (prefers-reduced-motion: reduce) {

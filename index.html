@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="companies.js"></script>
   <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 </head>
 <body>
   <!-- Founder first, then the companies -->
@@ -43,6 +44,19 @@
     <p class="lead" id="lead"></p>
     <nav class="cards" id="cards"></nav>
   </main>
+
+  <!-- Same scan block as qr.html, so the home page doubles as the QR page -->
+  <section class="scan" id="scan">
+    <p class="eyebrow" lang="en">Our Companies</p>
+    <h2 class="scan-title" lang="en">Scan to <em>discover</em><br>our companies</h2>
+    <p class="ar" lang="ar">امسح الرمز لاكتشاف شركاتنا</p>
+    <p class="tr" lang="tr">Şirketlerimizi keşfetmek için okutun</p>
+    <div class="qr-zone">
+      <div id="qr" role="img" aria-label="QR code to this website"></div>
+      <i class="bracket b1"></i><i class="bracket b2"></i><i class="bracket b3"></i><i class="bracket b4"></i>
+    </div>
+    <div class="chips"><span lang="en">English</span><span lang="ar">العربية</span><span lang="tr">Türkçe</span></div>
+  </section>
   <footer class="footer" id="footer"></footer>
   <script>
     startPage((lang, t) => {
@@ -63,6 +77,13 @@
           </span>
         </a>`).join("");
     });
+  </script>
+  <script>
+    // Separate script so a failed QR library load can't break the rest of the page.
+    const qr = qrcode(0, "Q"); // Q = ~25% error correction
+    qr.addData(new URL("./", location.href).href); // the site's home address, without ?lang
+    qr.make();
+    document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
   </script>
 </body>
 </html>
