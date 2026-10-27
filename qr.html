@@ -13,6 +13,11 @@
     #qr svg { display: block; width: 100%; height: auto; }
     .actions { justify-content: center; }
     button { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; cursor: pointer; }
+    .go {
+      display: block; width: fit-content; margin: 24px auto 0; padding: 13px 28px; border-radius: 999px;
+      background: var(--accent); color: #15130f; font-weight: 700; text-decoration: none; transition: background .2s;
+    }
+    .go:hover { background: var(--accent-strong); }
   </style>
 </head>
 <body>
@@ -28,6 +33,7 @@
       <button id="png">Download PNG</button>
       <button id="svg">Download SVG (for print)</button>
     </div>
+    <a class="go" id="go" href="./">Go to the website →</a>
   </main>
   <script>
     const input = document.getElementById("url");
@@ -40,6 +46,7 @@
       qr.addData(input.value.trim());
       qr.make();
       document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+      document.getElementById("go").href = input.value.trim(); // same address the QR opens
     };
 
     const download = (href, name) => Object.assign(document.createElement("a"), { href, download: name }).click();
